@@ -22,3 +22,17 @@
     template: "{{ role_path }}/files/bastion-heat-stack.yml"
     environment:
       - "{{ heat_environment_file }}"
+
+- name: Add the bastion host to Ansible inventory
+  add_host:
+    name: "bastion"
+    groups: "{{ item.metadata.ansible_group }}"
+    ansible_ssh_host: "{{ item.addresses[public_net_name][1].addr }}"
+    ansible_ssh_user: "{{ vm_user_account }}"
+  with_items:
+    - "{{ heat_stack.stack.outputs[0].output_value }}"
+
+- name: Generate an inventory file
+  template:
+    src: bastion-inventory.j2
+    dest: "{{ role_path }}/../../inventories/{{ heat_stack_name }}-autogen-inventory"

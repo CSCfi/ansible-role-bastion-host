@@ -8,3 +8,11 @@
 # The path to the file that will be used as the environment file for the Heat
 # template.
 heat_environment_file: "bastion-heat-vars.yml"
+
+# The name of the network that is used with the floating IP created during
+# deployment.
+public_net_name: "{{ lookup('env', 'OS_TENANT_NAME') }}"
+
+# The user account name to use initially with the bastion host. This is an
+# account that should exist on freshly created VMs.
+vm_user_account: "cloud-user"
