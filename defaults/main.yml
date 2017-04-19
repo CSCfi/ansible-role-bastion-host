@@ -1,0 +1,10 @@
+---
+# You can specify your own name for the bastion Heat stack. If you don't
+# specify a name, a random name will be generated. If you want to manage an
+# existing Heat stack, you will need to specify the name of an existing stack
+# using this variable.
+#heat_stack_name: bastion
+
+# The path to the file that will be used as the environment file for the Heat
+# template.
+heat_environment_file: "bastion-heat-vars.yml"
