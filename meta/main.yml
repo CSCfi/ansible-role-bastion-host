@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: Risto Laurikainen
+  description: Deploy bastion hosts in an OpenStack project using Heat and Ansible
+  company: CSC - IT Center for Science Ltd.
+  license: MIT
+  min_ansible_version: 2.2
+  platforms:
+    - name: GenericLinux
+      versions:
+        - any
+  categories:
+    - cloud
+    - openstack
