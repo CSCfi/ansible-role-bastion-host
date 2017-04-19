@@ -19,6 +19,6 @@
   os_stack:
     name: "{{ heat_stack_name }}"
     state: present
-    template: "bastion-heat-stack.yml"
+    template: "{{ role_path }}/files/bastion-heat-stack.yml"
     environment:
       - "{{ heat_environment_file }}"
