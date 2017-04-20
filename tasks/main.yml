@@ -5,6 +5,7 @@
     echo -n "bastion-"
     grep -E "^[a-z]{3,6}$" /usr/share/dict/words | shuf -n 3 | xargs | tr " " "-"
   when: heat_stack_name is undefined
+  failed_when: heat_stack_name_gen.stderr_lines
 
 - name: Set a random Heat stack name
   set_fact:
