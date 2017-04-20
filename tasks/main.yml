@@ -3,7 +3,7 @@
   register: heat_stack_name_gen
   shell: |
     echo -n "bastion-"
-    grep -E "^[a-z]{3,6}$" /usr/share/dict/words | shuf -n 3 | xargs | tr " " "-"
+    shuf -n 3 {{ role_path }}/files/castles.txt | xargs | tr " " "-"
   when: heat_stack_name is undefined
   failed_when: heat_stack_name_gen.stderr_lines
 
