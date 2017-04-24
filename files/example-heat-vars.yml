@@ -1,5 +1,8 @@
 # This is an example parameter file for Heat. The minimum set of deployment
 # specific parameters to set for Heat are documented here.
+#
+# For cloud-init documentation, see:
+# http://cloudinit.readthedocs.io/en/latest/index.html
 parameter_defaults:
   bastion_allow_cidrs: '0.0.0.0/0'
   bastion_allow_ports: '22'
@@ -9,3 +12,19 @@ parameter_defaults:
   bastion_ssh_key_name: # SET THIS
   bastion_networks:
     - network: # SET THIS
+
+parameters:
+  cloud_config:
+    users:
+      - name: foo
+        groups: users
+        ssh-authorized-keys:
+          - "ssh-rsa ..."
+        sudo: "ALL=(ALL) NOPASSWD: ALL"
+    package_update: true
+    package_upgade: true
+    ssh_pwauth: false
+    write_files:
+    packages:
+      - ansible
+      - python

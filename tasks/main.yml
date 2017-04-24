@@ -5,7 +5,7 @@
     echo -n "bastion-"
     shuf -n 3 {{ role_path }}/files/castles.txt | xargs | tr " " "-"
   when: heat_stack_name is undefined
-  failed_when: heat_stack_name_gen.stderr_lines
+  failed_when: heat_stack_name_gen.stderr|default('')
 
 - name: Set a random Heat stack name
   set_fact:
@@ -37,3 +37,16 @@
   template:
     src: bastion-inventory.j2
     dest: "{{ role_path }}/../../inventories/{{ heat_stack_name }}-autogen-inventory"
+
+- name: Wait for SSH on the bastion host to become available
+  wait_for:
+    host: "{{ hostvars[groups['bastion'][0]]['ansible_ssh_host'] }}"
+    port: 22
+    state: started
+
+- name: Wait for SSH to work
+  shell: ssh -o PasswordAuthentication=no -q {{ vm_user_account }}@{{ hostvars[groups['bastion'][0]]['ansible_ssh_host'] }} 'echo success'
+  register: result
+  until: result.stdout.find('success') != -1
+  retries: 30
+  delay: 5

@@ -46,6 +46,10 @@ parameters:
       The networks to which the bastion host will be connected to. Cloud project
       dependent.
     type: json
+  cloud_config:
+    description: >
+      Configuration for cloud-init for the bastion host.
+    type: json
 
 resources:
   bastion_secgroup:
@@ -69,6 +73,11 @@ resources:
     properties:
       pool: { get_param: floating_ip_pool }
 
+  bastion_cloud_config:
+    type: "OS::Heat::CloudConfig"
+    properties:
+      cloud_config: { get_param: cloud_config }
+
   bastion_host:
     type: OS::Nova::Server
     properties:
@@ -80,6 +89,8 @@ resources:
         - { get_resource: bastion_secgroup }
       networks: { get_param: bastion_networks }
       metadata: { 'ansible_group': 'bastion' }
+      user_data: { get_resource: bastion_cloud_config }
+      user_data_format: RAW
 
   bastion_host_floating_ip_association:
     type: OS::Nova::FloatingIPAssociation
