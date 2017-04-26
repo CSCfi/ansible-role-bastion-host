@@ -1,5 +1,8 @@
 [all:vars]
 heat_stack_name={{ heat_stack_name }}
 
+[{{ heat_stack_name }}:children]
+bastion
+
 [bastion]
 bastion ansible_ssh_host={{ hostvars['bastion']['ansible_ssh_host'] }}
